@@ -1,72 +1,115 @@
 <html>
-    <head>
-        <title>xd</title>
-        <script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+
+  <head>
+    <title>xd</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
       crossorigin="anonymous"></script>
-        <script type="text/javascript">
-var clientID = 'giih97xlk27dsoy6htk0yfezqxxbsw';
-var scopes = ['user_read', 'chat_login', 'user_subscriptions', 'user_blocks_edit', 'user_blocks_read', 'user_follows_edit'];
-function doRedirect() {
-    var scopeString = scopes.join(' ');
-    var url = 'https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=' + clientID + '&redirect_uri=https://pajlada.se/chatterino/&scope=' + encodeURIComponent(scopeString);
-    document.location = url;
-}
+    <style>
+      #credentials {
+        display: none;
+      }
 
-$(document).ready(function() {
-    var oauthHash = location.hash.substr(1);
-    var oauthToken = oauthHash.substr(oauthHash.indexOf('access_token=')).split('&')[0].split('=')[1];
+      #loading {
+        display: none;
+      }
 
-    if (oauthToken) {
-        $('#loginForm').hide();
-        $('#loading').show();
-        var userIDURL = 'https://api.twitch.tv/kraken/user?client_id=' + clientID + '&oauth_token=' + oauthToken + '&api_version=5';
-        console.log(userIDURL);
-        $.ajax({
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 22px;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      div.hcenter {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+      }
+
+      .title {
+        display: flex;
+        font-size: 54px;
+        margin-bottom: 0.2em;
+      }
+
+      .title > img {
+          margin-right: 22px;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div class="title"><!--<img src="https://fourtf.com/img/chatterino-icon-64.png">-->Chatterino</div>
+
+    <div id="loginForm">
+      <p>Press the button below to log in.</p>
+      <div class="hcenter">
+        <button onclick="doRedirect();">Log in</button>
+      </div>
+    </div>
+
+    <div id="loading">
+      <p>Loading username and user id</p>
+      <p class="error"></p>
+    </div>
+
+    <div id="credentials">
+      <p>Copy the text below and press the "Paste login info" button in Chatterino</p>
+      <textarea class="data"></textarea>
+    </div>
+
+    <script type="text/javascript">
+      var clientID = 'giih97xlk27dsoy6htk0yfezqxxbsw';
+      var scopes = ['user_read', 'chat_login', 'user_subscriptions', 'user_blocks_edit',
+        'user_blocks_read', 'user_follows_edit'
+      ];
+
+      function doRedirect() {
+        var scopeString = scopes.join(' ');
+        var url = 'https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=' +
+          clientID + '&redirect_uri=https://pajlada.se/chatterino/&scope=' + encodeURIComponent(
+            scopeString);
+        document.location = url;
+      }
+      $(document).ready(function() {
+        var oauthHash = location.hash.substr(1);
+        var oauthToken = oauthHash.substr(oauthHash.indexOf('access_token=')).split('&')[0].split(
+          '=')[1];
+        if (oauthToken) {
+          $('#loginForm').hide();
+          $('#loading').show();
+          var userIDURL = 'https://api.twitch.tv/kraken/user?client_id=' + clientID +
+            '&oauth_token=' + oauthToken + '&api_version=5';
+          console.log(userIDURL);
+          $.ajax({
             dataType: 'json',
             url: userIDURL,
             success: function(data) {
-                console.log('hehe');
-                console.log(data);
-                userID = data._id;
-                username = data.name;
-                var dataString = 'oauth_token=' + oauthToken + ';username=' + username + ';user_id=' + userID + ';client_id=' + clientID;
-                $('#credentials .data').text(dataString);
-                $('#loading').hide();
-                $('#credentials').show();
+              console.log('hehe');
+              console.log(data);
+              userID = data._id;
+              username = data.name;
+              var dataString = 'oauth_token=' + oauthToken + ';username=' + username +
+                ';user_id=' + userID + ';client_id=' + clientID;
+              $('#credentials .data').text(dataString);
+              $('#loading').hide();
+              $('#credentials').show();
             },
             error: function(xhr, textStatus, error) {
-                console.log('asdasd');
-                console.log(textStatus);
-                console.log(error);
-                $('#loading .error').text('Error getting user ID. Refresh and try again');
+              console.log('asdasd');
+              console.log(textStatus);
+              console.log(error);
+              $('#loading .error').text('Error getting user ID. Refresh and try again');
             }
-        });
-    }
-});
-        </script>
-<style>
-#credentials {
-    display: none;
-}
-#loading {
-    display: none;
-}
-</style>
-    </head>
-    <body>
-        <div id="loginForm">
-            <h1>press button below to log in</h1>
-            <button onclick="doRedirect();">Log in</button>
-        </div>
-        <div id="loading">
-            <p>Loading username and user id</p>
-            <p class="error"></p>
-        </div>
-        <div id="credentials">
-            <p>Copy the text below and press the "Paste login info" button in Chatterino</p>
-            <textarea class="data"></textarea>
-        </div>
-    </body>
+          });
+        }
+      });
+
+    </script>
+  </body>
+
 </html>
