@@ -14,13 +14,17 @@
       }
 
       body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 22px;
         margin: 0;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
+      }
+
+      body,
+      button {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 22px;
       }
 
       div.hcenter {
@@ -31,19 +35,29 @@
 
       .title {
         display: flex;
-        font-size: 54px;
+        align-items: center;
+        font-size: 44px;
         margin-bottom: 0.2em;
       }
 
-      .title > img {
-          margin-right: 22px;
+      .title>img {
+        margin-right: 22px;
+        height: 40px;
+        width: 40px;
+      }
+
+      p,
+      .title,
+      button {
+        margin: 16px 0;
       }
 
     </style>
   </head>
 
   <body>
-    <div class="title"><!--<img src="https://fourtf.com/img/chatterino-icon-64.png">-->Chatterino</div>
+    <div class="title">
+      <img src="https://fourtf.com/img/chatterino-icon-64.png">Chatterino</div>
 
     <div id="loginForm">
       <p>Press the button below to log in.</p>
