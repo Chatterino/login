@@ -77,7 +77,7 @@
     </div>
 
     <script type="text/javascript">
-      var clientID = 'giih97xlk27dsoy6htk0yfezqxxbsw';
+      var clientID = 'g5zg0400k4vhrx2g6xi4hgveruamlv';
       var scopes = ['user_read', 'chat_login', 'user_subscriptions', 'user_blocks_edit',
         'user_blocks_read', 'user_follows_edit'
       ];
@@ -85,7 +85,7 @@
       function doRedirect() {
         var scopeString = scopes.join(' ');
         var url = 'https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=' +
-          clientID + '&redirect_uri=https://pajlada.se/chatterino/&scope=' + encodeURIComponent(
+          clientID + '&redirect_uri=https://chatterino.com/client_login&scope=' + encodeURIComponent(
             scopeString);
         document.location = url;
       }
