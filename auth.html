@@ -19,6 +19,7 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        text-align: center;
       }
 
       body,
@@ -52,6 +53,11 @@
         margin: 16px 0;
       }
 
+      .data {
+        width: 400px;
+        min-height: 100px;
+      }
+
     </style>
   </head>
 
@@ -64,6 +70,7 @@
       <div class="hcenter">
         <button onclick="doRedirect();">Log in</button>
       </div>
+      <p style="color: #999; font-size: 14px;">This will show your login token.</p>
     </div>
 
     <div id="loading">
@@ -72,7 +79,7 @@
     </div>
 
     <div id="credentials">
-      <p>Copy the text below and press the "Paste login info" button in Chatterino</p>
+      <p>Copy the text below and press the<br>"Paste login info" button in Chatterino</p>
       <textarea class="data"></textarea>
     </div>
 
@@ -112,6 +119,7 @@
               $('#credentials .data').text(dataString);
               $('#loading').hide();
               $('#credentials').show();
+              $('.data').select();
             },
             error: function(xhr, textStatus, error) {
               console.log('asdasd');
