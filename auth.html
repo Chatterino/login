@@ -85,14 +85,23 @@
 
     <script type="text/javascript">
       var clientID = 'g5zg0400k4vhrx2g6xi4hgveruamlv';
-      var scopes = ['user_read', 'chat_login', 'user_subscriptions', 'user_blocks_edit',
-        'user_blocks_read', 'user_follows_edit'
+      var redirectURI = 'https://chatterino.com/client_login';
+      var scopes = [
+        'user_subscriptions',
+        'user_blocks_edit',
+        'user_blocks_read',
+        'user_follows_edit',
+        'channel:moderate',
+        'chat:edit',
+        'chat:read',
+        'whispers:read',
+        'whispers:edit',
       ];
 
       function doRedirect() {
         var scopeString = scopes.join(' ');
-        var url = 'https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=' +
-          clientID + '&redirect_uri=https://chatterino.com/client_login&scope=' + encodeURIComponent(
+        var url = 'https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=' +
+          clientID + '&redirect_uri=' + redirectURI + '&scope=' + encodeURIComponent(
             scopeString);
         document.location = url;
       }
@@ -103,17 +112,20 @@
         if (oauthToken) {
           $('#loginForm').hide();
           $('#loading').show();
-          var userIDURL = 'https://api.twitch.tv/kraken/user?client_id=' + clientID +
-            '&oauth_token=' + oauthToken + '&api_version=5';
-          console.log(userIDURL);
+          var userIDURL = 'https://api.twitch.tv/helix/users';
           $.ajax({
             dataType: 'json',
             url: userIDURL,
+            headers: {
+              'Client-ID': clientID,
+              'Authorization': 'Bearer ' + oauthToken,
+            },
             success: function(data) {
               console.log('hehe');
               console.log(data);
-              userID = data._id;
-              username = data.name;
+              data = data.data[0];
+              userID = data.id;
+              username = data.login;
               var dataString = 'oauth_token=' + oauthToken + ';username=' + username +
                 ';user_id=' + userID + ';client_id=' + clientID;
               $('#credentials .data').text(dataString);
