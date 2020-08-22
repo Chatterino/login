@@ -1,7 +1,7 @@
 <html>
 
   <head>
-    <title>xd</title>
+    <title>Login - Chatterino</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
       crossorigin="anonymous"></script>
     <style>
@@ -68,9 +68,9 @@
     <div id="loginForm">
       <p>Press the button below to log in.</p>
       <div class="hcenter">
-        <button onclick="doRedirect();">Log in</button>
+        <button onclick="doRedirect();">Log in (!! do not show on stream !!)</button>
       </div>
-      <p style="color: #999; font-size: 14px;">This will show your login token.</p>
+      <p style="color: #999; font-size: 14px; display: none">This will show your login token.</p>
     </div>
 
     <div id="loading">
@@ -92,7 +92,6 @@
         'user_blocks_read',
         'user_follows_edit',
         'channel_editor', // for /raid
-        'channel_commercial', // for /commercial
         'channel:moderate',
         'channel:read:redemptions',
         'chat:edit',
@@ -115,17 +114,21 @@
         if (oauthToken) {
           $('#loginForm').hide();
           $('#loading').show();
-          const validateURL = 'https://id.twitch.tv/oauth2/validate';
+          var userIDURL = 'https://api.twitch.tv/helix/users';
           $.ajax({
             dataType: 'json',
-            url: validateURL,
+            url: userIDURL,
             headers: {
-              'Authorization': 'OAuth ' + oauthToken,
+              'Client-ID': clientID,
+              'Authorization': 'Bearer ' + oauthToken,
             },
             success: function(data) {
-              const userID = data.user_id;
-              const username = data.login;
-              const dataString = 'oauth_token=' + oauthToken + ';username=' + username +
+              console.log('hehe');
+              console.log(data);
+              data = data.data[0];
+              userID = data.id;
+              username = data.login;
+              var dataString = 'oauth_token=' + oauthToken + ';username=' + username +
                 ';user_id=' + userID + ';client_id=' + clientID;
               $('#credentials .data').text(dataString);
               $('#loading').hide();
@@ -133,6 +136,7 @@
               $('.data').select();
             },
             error: function(xhr, textStatus, error) {
+              console.log('asdasd');
               console.log(textStatus);
               console.log(error);
               $('#loading .error').text('Error getting user ID. Refresh and try again');
