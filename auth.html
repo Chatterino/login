@@ -132,8 +132,7 @@
       }
       $(document).ready(function() {
         var oauthHash = location.hash.substr(1);
-        var oauthToken = oauthHash.substr(oauthHash.indexOf('access_token=')).split('&')[0].split(
-          '=')[1];
+        var oauthToken = oauthHash.substr(oauthHash.indexOf('access_token=')).split('&')[0].split('=')[1];
         if (oauthToken) {
           $('#loginForm').hide();
           $('#loading').show();
