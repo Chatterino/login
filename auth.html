@@ -107,9 +107,9 @@
     </div>
 
     <script type="text/javascript">
-      var clientID = 'g5zg0400k4vhrx2g6xi4hgveruamlv';
-      var redirectURI = 'https://chatterino.com/client_login';
-      var scopes = [
+      const clientID = 'g5zg0400k4vhrx2g6xi4hgveruamlv';
+      const redirectURI = 'https://chatterino.com/client_login';
+      const scopes = [
         'user_subscriptions',
         'user_blocks_edit',
         'user_blocks_read',
@@ -126,20 +126,20 @@
       ];
 
       function doRedirect() {
-        var scopeString = scopes.join(' ');
-        var url = 'https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=' +
+        const scopeString = scopes.join(' ');
+        const url = 'https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=' +
           clientID + '&redirect_uri=' + redirectURI + '&scope=' + encodeURIComponent(
             scopeString);
         document.location = url;
       }
       $(document).ready(function() {
-        var oauthHash = location.hash.substr(1);
-        var oauthToken = oauthHash.substr(oauthHash.indexOf('access_token=')).split('&')[0].split(
+        const oauthHash = location.hash.substr(1);
+        const oauthToken = oauthHash.substr(oauthHash.indexOf('access_token=')).split('&')[0].split(
           '=')[1];
         if (oauthToken) {
           $('#loginForm').hide();
           $('#loading').show();
-          var userIDURL = 'https://api.twitch.tv/helix/users';
+          const userIDURL = 'https://api.twitch.tv/helix/users';
           $.ajax({
             dataType: 'json',
             url: userIDURL,
@@ -153,7 +153,7 @@
               data = data.data[0];
               userID = data.id;
               username = data.login;
-              var dataString = 'oauth_token=' + oauthToken + ';username=' + username +
+              const dataString = 'oauth_token=' + oauthToken + ';username=' + username +
                 ';user_id=' + userID + ';client_id=' + clientID;
               $('#credentials .data').text(dataString);
               $('#loading').hide();
