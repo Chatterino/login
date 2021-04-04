@@ -136,10 +136,12 @@
             scopeString);
         document.location = url;
       }
+      const oauthHash = location.hash.substr(1);
+      const oauthToken = oauthHash.substr(oauthHash.indexOf('access_token=')).split('&')[0].split('=')[1];
+      if (oauthToken) {
+        history.replaceState(null, null, ' ');
+      }
       $(document).ready(function() {
-        const oauthHash = location.hash.substr(1);
-        const oauthToken = oauthHash.substr(oauthHash.indexOf('access_token=')).split('&')[0].split(
-          '=')[1];
         if (oauthToken) {
           $('#loginForm').hide();
           $('#loading').show();
