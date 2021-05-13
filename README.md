@@ -49,3 +49,5 @@ Below is a list of our scopes in the "human readable" format that Twitch provide
   From the `user_subscriptions` scope, used to let Chatterino figure out which emotes your Twitch account is able to use (including Subscription emotes)
 - **View live Stream Chat and Rooms messages**  
   From the `chat:read` scope, used to let you read Twitch chats.
+- **Manage automod messages**  
+  From the `moderator:manage:automod` scope, used to let you approve/deny automod messages as a moderator.
