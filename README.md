@@ -1,3 +1,6 @@
+important: this now lives directly in https://github.com/chatterino/website/
+
+
 # login
 
 This is the login page used to authenticate your Twitch account with Chatterino.
